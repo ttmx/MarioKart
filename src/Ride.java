@@ -5,6 +5,7 @@ class Ride {
     private float duration;
     private int seats;
     private Person driver;
+    private int spots;
 
     public Ride(String destination, int[] date, float duration, int spots) {
         this.destination = destination;

@@ -1,17 +1,20 @@
 class Ride {
 
     private String destination;
+    private String origin;
     private int[] date;
     private float duration;
     private int seats;
     private Person driver;
-    private int spots;
+    private int emptySeats;
+    
 
-    public Ride(String destination, int[] date, float duration, int spots) {
+    public Ride(String origin,String destination, int[] date,int hour, float duration, int emptySeats) {
+        this.origin = origin;
         this.destination = destination;
         this.date = date;
         this.duration = duration;
-        this.spots = spots;
+        this.emptySeats = emptySeats;
     }
 
     public String getDestination() {

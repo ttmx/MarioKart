@@ -56,7 +56,7 @@ class Main {
                 logoff();
                 break;
             case NEWRIDE:
-                newRide();
+                newRide(personObj,scan,CObj);
                 break;
             case LISTRIDES:
                 listRides();
@@ -185,7 +185,24 @@ class Main {
 
     }
 
-    private static void newRide() {
+    private static void newRide(Person personObj,Scanner scan,Controller CObj) {
+        String lOrigin = scan.nextLine();
+        String lDestination = scan.nextLine();
+        String lDate = scan.next();
+        int[] laDate = CObj.dateFromString(lDate);
+        int lHour = scan.nextInt();
+        float lDuration = scan.nextFloat();
+        int lSeats = scan.nextInt();
+        // 0 if good, 1 if invalid data, 2 if already registered
+        switch(personObj.newRide(lOrigin,lDestination,laDate,lHour,lDuration,lSeats)){
+            case 0:
+            System.out.println("Deslocacao registada. Obrigado "+personObj.getName() +".");
+            break;
+        }
+                
+        
+
+        }
 
     }
 
@@ -196,5 +213,6 @@ class Main {
     private static void printEnd() {
         System.out.println(BYEBYE);
     }
+    
 
 }

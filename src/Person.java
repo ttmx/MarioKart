@@ -39,7 +39,7 @@ class Person {
             lErrorCode = 2;
         }else{
             rides = increaseRides();
-            rides[rides.length]= new Ride(origin,destination,date,duration,seats);
+            rides[rides.length]= new Ride(origin,destination,date,hour,duration,seats);
         }
         return lErrorCode;
     }
@@ -49,7 +49,7 @@ class Person {
     private boolean isRideAlreadyRegistered(int[] date){
         boolean lCheck = false;
         for (int i = 0;i < rides.length; i++){
-            if(rides[i].getDate()[0] == date[0] || rides[i].getDate[1] == date[1] || rides[i].getDate()[2] == date[2]){
+            if(rides[i].getDate()[0] == date[0] || rides[i].getDate()[1] == date[1] || rides[i].getDate()[2] == date[2]){
                 lCheck = true;
             }
         }

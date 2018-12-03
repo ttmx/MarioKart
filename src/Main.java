@@ -11,7 +11,7 @@ class Main {
     private static final String GETINFO = "consulta";
     private static final String TAKEARIDE = "boleia";
     private static final String REMOVERIDE = "remove";
-    private static final String BYEBYE = "Obrigado.  Ate a proxima.";
+    private static final String BYEBYE = "Obrigado. Ate a proxima.";
 
     public static void main(String[] args) {
         Controller CObj = new Controller();
@@ -28,6 +28,7 @@ class Main {
             switch (lCmd) {
             case HELP:
                 printMenuHelp();
+                scan.nextLine();
                 break;
             case REGISTER:
                 register(scan, CObj);
@@ -40,6 +41,7 @@ class Main {
                 break;
             default:
                 printInvalidCmd();
+                scan.nextLine();
                 break;
             }
 
@@ -75,7 +77,7 @@ class Main {
                 break;
             default:
                 printInvalidCmd();
-
+                scan.nextLine();
                 break;
             }
 
@@ -86,7 +88,7 @@ class Main {
     public static String readCommand(Scanner scan) {
         String lRead = "";
         lRead = scan.next().toLowerCase();
-
+        
         return lRead;
     }
 
@@ -114,6 +116,7 @@ class Main {
             while (lFailCount < 3 && !lHasCreated) {
                 System.out.print("password (entre 3 e 5 caracteres - digitos e letras): ");
                 lPass = scan.next();
+                scan.nextLine();
                 if (isPwValid(lPass)) {
                     CObj.createAccount(lEmail, lName, lPass);
                     System.out.println("Registo efetuado.");
@@ -151,6 +154,7 @@ class Main {
 
     private static void login(Scanner scan, Controller CObj) {
         String lEmail = scan.next();
+        scan.nextLine();
         String lPass = "";
         Person lPerson = CObj.getPersonFromEmail(lEmail);
         boolean lLoggedIn = false;
@@ -158,6 +162,7 @@ class Main {
             for (int i = 0; lLoggedIn == false && i < 3; i++) {
                 System.out.print("password: ");
                 lPass = scan.next();
+                scan.nextLine();
                 if (lPass.equals(lPerson.getPw())) {
                     lLoggedIn = true;
                     loggedIn(lPerson, scan, CObj);
@@ -196,15 +201,17 @@ class Main {
         // 0 if good, 1 if invalid data, 2 if already registered
         switch(personObj.newRide(lOrigin,lDestination,laDate,lHour,lDuration,lSeats)){
             case 0:
-            System.out.println("Deslocacao registada. Obrigado "+personObj.getName() +".");
-            break;
+            	System.out.println("Deslocacao registada. Obrigado "+personObj.getName() +".");
+            	break;
+            case 1:
+            	
         }
                 
         
 
-        }
-
     }
+
+    
 
     private static void takeARide() {
 

@@ -58,10 +58,10 @@ class Main {
                 logoff();
                 break;
             case NEWRIDE:
-                newRide(personObj,scan,CObj);
+                newRide(personObj, scan, CObj);
                 break;
             case LISTRIDES:
-                listRides();
+
                 break;
             case GETINFO:
                 getInfo();
@@ -88,12 +88,22 @@ class Main {
     public static String readCommand(Scanner scan) {
         String lRead = "";
         lRead = scan.next().toLowerCase();
-        
+
         return lRead;
     }
 
     private static boolean isPwValid(String pw) {
-        return (pw.length() <= 5 && pw.length() >= 3);
+        boolean lHasDigits = false;
+        boolean lHasLetters = false;
+        for (int i = 0; i < pw.length(); i++) {
+            if (Character.isDigit(pw.charAt(i))) {
+                lHasDigits = true;
+            }
+            if (Character.isAlphabetic(pw.charAt(i))) {
+                lHasLetters = true;
+            }
+        }
+        return (pw.length() <= 5 && pw.length() >= 3 && lHasDigits && lHasLetters);
     }
 
     private static void printInvalidCmd() {
@@ -182,7 +192,19 @@ class Main {
 
     }
 
-    private static void listRides() {
+    private static void listRides(Scanner scan, Controller CObj) {
+        String lDate = "";
+        int[] laDate;
+        if (scan.hasNext()) {
+            lDate = scan.next();
+            laDate = CObj.dateFromString(lDate);
+            listRides(laDate, CObj);
+        } else {
+
+        }
+    }
+
+    private static void listRides(int[] date, Controller CObj) {
 
     }
 
@@ -190,28 +212,36 @@ class Main {
 
     }
 
-    private static void newRide(Person personObj,Scanner scan,Controller CObj) {
+    private static void newRide(Person personObj, Scanner scan, Controller CObj) {
         String lOrigin = scan.nextLine();
         String lDestination = scan.nextLine();
+
         String lDate = scan.next();
         int[] laDate = CObj.dateFromString(lDate);
+
         int lHour = scan.nextInt();
         float lDuration = scan.nextFloat();
         int lSeats = scan.nextInt();
+
         // 0 if good, 1 if invalid data, 2 if already registered
-        switch(personObj.newRide(lOrigin,lDestination,laDate,lHour,lDuration,lSeats)){
-            case 0:
-            	System.out.println("Deslocacao registada. Obrigado "+personObj.getName() +".");
-            	break;
-            case 1:
-            	
+        switch (personObj.newRide(lOrigin, lDestination, laDate, lHour, lDuration, lSeats)) {
+        case 0:
+            System.out.println("Deslocacao registada. Obrigado " + personObj.getName() + ".");
+            break;
+        case 1:
+            System.out.println("Dados invalidos.");
+            System.out.println("Deslocacao nao registada.");
+            break;
+        case 2:
+            System.out.println(personObj.getName() + " ja tem uma deslocacao registada nesta data");
+            System.out.println("Deslocacao nao registada.");
+            break;
+        default:
+            System.out.println("I have absolutely no idea how you got here");
+            break;
         }
-                
-        
 
     }
-
-    
 
     private static void takeARide() {
 
@@ -220,6 +250,5 @@ class Main {
     private static void printEnd() {
         System.out.println(BYEBYE);
     }
-    
 
 }

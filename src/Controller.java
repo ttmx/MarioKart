@@ -3,6 +3,7 @@
 class Controller {
     private Person[] accounts;
     private int personCount;
+
     public Controller() {
         accounts = new Person[0];
         personCount = 0;
@@ -10,12 +11,12 @@ class Controller {
 
     public Boolean repeatedEmail(String emailToCheck) {
         boolean isRepeated = false;
-        if(personCount != 0) {
-        	 for (int i = 0; i < personCount; i++) {
-                 if (accounts[i].getEmail().equals(emailToCheck)) {
-                     isRepeated = true;
-                 }
-             }
+        if (personCount != 0) {
+            for (int i = 0; i < personCount; i++) {
+                if (accounts[i].getEmail().equals(emailToCheck)) {
+                    isRepeated = true;
+                }
+            }
         }
         return isRepeated;
     }
@@ -26,14 +27,15 @@ class Controller {
         personCount++;
         return true;
     }
+
     public Person getPersonFromEmail(String emailToCheck) {
-    	Person lPerson=null;
-    	for(int i= 0;i < accounts.length;i++) {
-    		if(accounts[i].getEmail().equals(emailToCheck)) {
-    			lPerson = accounts[i];
-    		}
-    	}
-    	return lPerson;
+        Person lPerson = null;
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i].getEmail().equals(emailToCheck)) {
+                lPerson = accounts[i];
+            }
+        }
+        return lPerson;
     }
 
     public Person[] increaseAccounts() {
@@ -43,27 +45,38 @@ class Controller {
         }
         return bigAccounts;
     }
-    public int[] dateFromString(String sDate){
+
+    public int[] dateFromString(String sDate) {
         int[] iaDate = new int[3];
         String[] saDate = sDate.split("-");
-        for(int i = 0; i <3;i++){
+        for (int i = 0; i < 3; i++) {
             iaDate[i] = Integer.parseInt(saDate[i].trim());
         }
         return iaDate;
     }
-    public boolean dateMakesSense(int[] date) {
-        boolean niceDate = true;
-        int febDays = 28;
-        if ((2000 - date[2]) % 4 == 0)
-            febDays += 1;
-        int[] daysPerMonth = { 31, 28, 31, 30, febDays, 30, 31, 31, 30, 31, 30, 31 };
-        if(date[1]<=12){
-        if(date[0]>daysPerMonth[date[1]-1])
-            niceDate = false;
-        }else{
-            niceDate = false;
+
+    public Ride[] getRides(int[] date) {
+        Ride[] lRides = new Ride[0];
+        for (int i = 0; i < accounts.length; i++) {
+            for (int a = 0; i < accounts[i].getRides().length; i++) {
+                if (date.equals(account[i].getRides()[a])) {
+                    lRides = increaseRides(lRides);
+                    lRides[lRides.length - 1] = account[i].getRides()[a];
+                }
+            }
         }
-        return niceDate;
+        return lRides;
     }
-    
+
+    private Ride[] increaseRides(Ride[] rideyboy) {
+        Ride[] bigRides = new Ride[rideyboy.length + 1];
+        for (int i = 0; i < rideyboy.length; i++) {
+            bigRides[i] = rideyboy[i];
+        }
+        return bigRides;
+    }
+
+    public Ride[] getRides(Person PObj) {
+
+    }
 }

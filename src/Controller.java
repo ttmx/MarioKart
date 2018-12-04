@@ -27,7 +27,7 @@ class Controller {
         personCount++;
         return true;
     }
-    
+
     public Person getPersonFromEmail(String emailToCheck) {
         Person lPerson = null;
         for (int i = 0; i < accounts.length; i++) {
@@ -54,16 +54,18 @@ class Controller {
         }
         return iaDate;
     }
+
     public int getUserCount() {
-    	return personCount;
-    }
-    public Person getPersonFromIndex(int index) {
-    	return accounts[index];
+        return personCount;
     }
 
-   /* public Ride[] getRides(int[] date) {
+    public Person getPersonFromIndex(int index) {
+        return accounts[index];
+    }
+
+    public Ride[] getRides(int[] date) {
         Ride[] lRides = new Ride[0];
-        for (int i = 0; i < accounts.length; i++) {
+        for (int i = 0; i < personCount; i++) {
             for (int a = 0; i < accounts[i].getRides().length; i++) {
                 if (date.equals(accounts[i].getRides()[a])) {
                     lRides = increaseRides(lRides);
@@ -80,5 +82,19 @@ class Controller {
             bigRides[i] = rideyboy[i];
         }
         return bigRides;
-    }*/
+    }
+    // I think this one is really similar to insertion sort
+    private Ride[] sortRides(Ride[] rideyboy){ 
+        int len = rideyboy.length; 
+        for (int i=1; i<len; ++i) { 
+            Ride key = rideyboy[i]; 
+            int j = i-1;
+            while (j>=0 && rideyboy[j].getDateNumber() > key.getDateNumber()){ 
+                rideyboy[j+1] = rideyboy[j]; 
+                j = j-1; 
+            } 
+            rideyboy[j+1] = key; 
+        }
+        return rideyboy;    
+    }
 }

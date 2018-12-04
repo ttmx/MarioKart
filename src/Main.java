@@ -51,7 +51,7 @@ class Main {
     public static void loggedIn(Person personObj, Scanner scan, Controller CObj) {
         String lCmd = "";
         while (!lCmd.equals(LOGOFF)) {
-            System.out.print(personObj.getEmail() + "> ");
+            System.out.print(personObj.getEmail() + " > ");
             lCmd = readCommand(scan);
             switch (lCmd) {
             case LOGOFF:
@@ -61,7 +61,8 @@ class Main {
                 newRide(personObj, scan, CObj);
                 break;
             case LISTRIDES:
-
+            	scan.nextLine();
+                listRides(scan, CObj, personObj);
                 break;
             case GETINFO:
                 getInfo();
@@ -93,17 +94,20 @@ class Main {
     }
 
     private static boolean isPwValid(String pw) {
-        boolean lHasDigits = false;
-        boolean lHasLetters = false;
+        boolean lIsValid = true;
+
         for (int i = 0; i < pw.length(); i++) {
-            if (Character.isDigit(pw.charAt(i))) {
-                lHasDigits = true;
-            }
-            if (Character.isAlphabetic(pw.charAt(i))) {
-                lHasLetters = true;
+            // if (Character.isDigit(pw.charAt(i))) {
+            // lHasDigits = true;
+            // }
+            // if (Character.isAlphabetic(pw.charAt(i))) {
+            // lHasLetters = true;
+            // }
+            if (!Character.isLetterOrDigit(pw.charAt(i))) {
+                lIsValid = false;
             }
         }
-        return (pw.length() <= 5 && pw.length() >= 3 && lHasDigits && lHasLetters);
+        return (pw.length() <= 5 && pw.length() >= 3 && lIsValid);
     }
 
     private static void printInvalidCmd() {
@@ -160,6 +164,7 @@ class Main {
         System.out.println("lista - Lista todas ou algumas deslocacoes registadas");
         System.out.println("boleia - Regista uma boleia para uma dada deslocacao");
         System.out.println("consulta - Lista a informacao de uma dada deslocacao");
+        System.out.println("remove - Retira uma dada deslocacao");
     }
 
     private static void login(Scanner scan, Controller CObj) {
@@ -180,6 +185,8 @@ class Main {
                     System.out.println("Password incorrecta.");
                 }
             }
+        } else {
+        	System.out.println("Utilizador nao existente.");
         }
 
     }
@@ -192,20 +199,23 @@ class Main {
 
     }
 
-    private static void listRides(Scanner scan, Controller CObj) {
+    private static void listRides(Scanner scan, Controller CObj, Person personObj) {
         String lDate = "";
         int[] laDate;
         if (scan.hasNext()) {
             lDate = scan.next();
             laDate = CObj.dateFromString(lDate);
-            listRides(laDate, CObj);
+            listRides(laDate, CObj, personObj);
         } else {
-
+        	System.out.println("NOPE");
         }
     }
 
-    private static void listRides(int[] date, Controller CObj) {
-
+    private static void listRides(int[] date, Controller CObj, Person personObj) {
+    	int lUserCount = CObj.getUserCount();
+    	for(int i = 0; i < lUserCount;i++ ) {
+    		System.out.println(CObj.getPersonFromIndex(i).getEmail());
+    	}
     }
 
     private static void removeRide() {
@@ -214,15 +224,17 @@ class Main {
 
     private static void newRide(Person personObj, Scanner scan, Controller CObj) {
         String lOrigin = scan.nextLine();
+        scan.nextLine();
         String lDestination = scan.nextLine();
 
         String lDate = scan.next();
         int[] laDate = CObj.dateFromString(lDate);
 
         int lHour = scan.nextInt();
+        
         float lDuration = scan.nextFloat();
         int lSeats = scan.nextInt();
-
+        
         // 0 if good, 1 if invalid data, 2 if already registered
         switch (personObj.newRide(lOrigin, lDestination, laDate, lHour, lDuration, lSeats)) {
         case 0:

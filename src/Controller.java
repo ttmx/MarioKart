@@ -27,7 +27,7 @@ class Controller {
         personCount++;
         return true;
     }
-
+    
     public Person getPersonFromEmail(String emailToCheck) {
         Person lPerson = null;
         for (int i = 0; i < accounts.length; i++) {
@@ -38,7 +38,7 @@ class Controller {
         return lPerson;
     }
 
-    public Person[] increaseAccounts() {
+    private Person[] increaseAccounts() {
         Person[] bigAccounts = new Person[accounts.length + 1];
         for (int i = 0; i < accounts.length; i++) {
             bigAccounts[i] = accounts[i];
@@ -54,14 +54,20 @@ class Controller {
         }
         return iaDate;
     }
+    public int getUserCount() {
+    	return personCount;
+    }
+    public Person getPersonFromIndex(int index) {
+    	return accounts[index];
+    }
 
-    public Ride[] getRides(int[] date) {
+   /* public Ride[] getRides(int[] date) {
         Ride[] lRides = new Ride[0];
         for (int i = 0; i < accounts.length; i++) {
             for (int a = 0; i < accounts[i].getRides().length; i++) {
-                if (date.equals(account[i].getRides()[a])) {
+                if (date.equals(accounts[i].getRides()[a])) {
                     lRides = increaseRides(lRides);
-                    lRides[lRides.length - 1] = account[i].getRides()[a];
+                    lRides[lRides.length - 1] = accounts[i].getRides()[a];
                 }
             }
         }
@@ -74,9 +80,5 @@ class Controller {
             bigRides[i] = rideyboy[i];
         }
         return bigRides;
-    }
-
-    public Ride[] getRides(Person PObj) {
-
-    }
+    }*/
 }

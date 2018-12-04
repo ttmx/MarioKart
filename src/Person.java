@@ -25,8 +25,9 @@ class Person {
         return pw;
     }
 
-    public Ride[] getRides() {
-        return rides;
+    public RideIterator createRideIterator(Ride[] rides) {
+    	RideIterator lIterator = new RideIterator(rides);
+    	return lIterator;
     }
 
     public Ride[] increaseRides() {
@@ -54,8 +55,7 @@ class Person {
     private boolean isRideAlreadyRegistered(int[] date) {
         boolean lCheck = false;
         for (int i = 0; i < rides.length; i++) {
-            if (rides[i].getDate()[0] == date[0] || rides[i].getDate()[1] == date[1]
-                    || rides[i].getDate()[2] == date[2]) {
+            if (rides[i].getDate()[0] == date[0] && rides[i].getDate()[1] == date[1] && rides[i].getDate()[2] == date[2]) {
                 lCheck = true;
             }
         }
@@ -63,6 +63,7 @@ class Person {
     }
 
     public boolean isDateValid(int[] date) {
+    	System.out.println("Running valid date check");
         boolean niceDate = true;
         int febDays = 28;
         if ((2000 - date[2]) % 4 == 0)
@@ -74,6 +75,7 @@ class Person {
         } else {
             niceDate = false;
         }
+        System.out.println("isDateValid =" + niceDate);
         return niceDate;
     }
 }

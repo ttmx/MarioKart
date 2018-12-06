@@ -5,7 +5,7 @@ class Controller {
     private int personCount;
 
     public Controller() {
-        accounts = new Person[0];
+        accounts = new Person[1];
         personCount = 0;
     }
 
@@ -39,7 +39,7 @@ class Controller {
     }
 
     private Person[] increaseAccounts() {
-        Person[] bigAccounts = new Person[accounts.length + 1];
+        Person[] bigAccounts = new Person[accounts.length * 2];
         for (int i = 0; i < accounts.length; i++) {
             bigAccounts[i] = accounts[i];
         }

@@ -116,13 +116,12 @@ class Main {
     private static void register(Scanner scan, Controller CObj) {
         boolean lHasCreated = false;
         int lFailCount = 0;
-        String lEmail = scan.next();
+        String lEmail = scan.nextLine();
         String lName = "";
         String lPass = "";
 
         boolean repeatedEmail = CObj.repeatedEmail(lEmail);
         if (!repeatedEmail) {
-
             System.out.print("nome (maximo 50 caracteres): ");
             lName = scan.nextLine();
 
@@ -169,6 +168,7 @@ class Main {
     private static void login(Scanner scan, Controller CObj) {
         String lEmail = scan.next();
         scan.nextLine();
+        System.out.println(lEmail);
         String lPass = "";
         Person lPerson = CObj.getPersonFromEmail(lEmail);
         boolean lLoggedIn = false;

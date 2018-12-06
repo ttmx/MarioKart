@@ -4,10 +4,11 @@ class RideIterator {
 	private int currElement;
 	private int numElements;
 	
-	public RideIterator(Ride[] rides) {
+	public RideIterator(Ride[] rides, int numElements) {
 		this.rides = rides;
+		this.numElements = numElements;
 		currElement = 0;
-		numElements = rides.length;
+		
 	}
 	public boolean hasNext() {
 		return currElement < numElements;
@@ -15,5 +16,16 @@ class RideIterator {
 	public Ride nextRide() {
 		return rides[currElement++];
 	}
-
+	public void sortRides() {
+        int len = rides.length;
+        for (int i = 1; i < len; ++i) {
+            Ride key = rides[i];
+            int j = i - 1;
+            while (j >= 0 && rides[j].getDateNumber() > key.getDateNumber()) {
+                rides[j + 1] = rides[j];
+                j = j - 1;
+            }
+            rides[j + 1] = key;
+        }
+    }
 }

@@ -61,14 +61,13 @@ class Main {
                 newRide(personObj, scan, CObj);
                 break;
             case LISTRIDES:
-            	scan.nextLine();
                 listRides(scan, CObj, personObj);
                 break;
             case GETINFO:
-                getInfo();
+                getInfo(scan, CObj);
                 break;
             case TAKEARIDE:
-                takeARide();
+                takeARide(personObj,scan,CObj);
                 break;
             case REMOVERIDE:
                 removeRide();
@@ -120,7 +119,7 @@ class Main {
         String lEmail = scan.next();
         String lName = "";
         String lPass = "";
-        scan.nextLine();
+
         boolean repeatedEmail = CObj.repeatedEmail(lEmail);
         if (!repeatedEmail) {
 
@@ -186,7 +185,7 @@ class Main {
                 }
             }
         } else {
-        	System.out.println("Utilizador nao existente.");
+            System.out.println("Utilizador nao existente.");
         }
 
     }
@@ -195,27 +194,64 @@ class Main {
         System.out.println(BYEBYE);
     }
 
-    private static void getInfo() {
-
-    }
-
-    private static void listRides(Scanner scan, Controller CObj, Person personObj) {
-        String lDate = "";
-        int[] laDate;
-        if (scan.hasNext()) {
-            lDate = scan.next();
-            laDate = CObj.dateFromString(lDate);
-            listRides(laDate, CObj, personObj);
-        } else {
-        	System.out.println("NOPE");
+    // consultamtmp@fct.unl.pt 20-12-2018
+    private static void getInfo(Scanner scan, Controller CObj) {
+        String lEmail = scan.next().trim();
+        int[] lDate = CObj.dateFromString(scan.next().trim());
+        Person lPerson = CObj.getPersonFromEmail(lEmail);
+        RideIterator lRI = lPerson.createRideIterator();
+        Ride lRide = null;
+        if (lRI.hasNext()) {
+            do {
+                lRide = lRI.nextRide();
+                if (lRide.getDate()[0] == lDate[0] && lRide.getDate()[1] == lDate[1]
+                        && lRide.getDate()[2] == lDate[2]) {
+                    printRideInfo(lRide, lPerson, false, true);
+                }
+            } while (lRI.hasNext());
+        }else{
+            System.out.println("Deslocacao nao existe.");
         }
     }
 
-    private static void listRides(int[] date, Controller CObj, Person personObj) {
-    	int lUserCount = CObj.getUserCount();
-    	for(int i = 0; i < lUserCount;i++ ) {
-    		System.out.println(CObj.getPersonFromIndex(i).getEmail());
-    	}
+    private static void listRides(Scanner scan, Controller CObj, Person personObj) {
+        String lDate = scan.nextLine().trim();
+        int[] laDate;
+        CObj.sortAccounts();
+        if (!lDate.equals("")) {
+            laDate = CObj.dateFromString(lDate);
+            listRidesWDate(laDate, CObj);
+        } else {
+            RideIterator lIterator = personObj.createRideIterator();
+            lIterator.sortRides();
+            if (lIterator.hasNext()) {
+                while (lIterator.hasNext()) {
+                    Ride lRide = lIterator.nextRide();
+                    printRideInfo(lRide, personObj, false, false);
+                }
+            } else {
+                System.out.println(personObj.getName() + " nao tem deslocacoes registadas.");
+            }
+
+        }
+    }
+
+    private static void listRidesWDate(int[] date, Controller CObj) {
+        int lUserCount = CObj.getUserCount();
+        Person lPerson = null;
+        for (int i = 0; i < lUserCount; i++) {
+            lPerson = CObj.getPersonFromIndex(i);
+            RideIterator lIterator = lPerson.createRideIterator();
+            while (lIterator.hasNext()) {
+
+                Ride lRide = lIterator.nextRide();
+                if (date[0] == lRide.getDate()[0] && date[1] == lRide.getDate()[1] && date[2] == lRide.getDate()[2]) {
+                    printRideInfo(lRide, lPerson, true, false);
+                }
+
+            }
+
+        }
     }
 
     private static void removeRide() {
@@ -223,18 +259,17 @@ class Main {
     }
 
     private static void newRide(Person personObj, Scanner scan, Controller CObj) {
-        String lOrigin = scan.nextLine();
-        scan.nextLine();
+
+        String lOrigin = scan.nextLine().trim();
         String lDestination = scan.nextLine();
 
         String lDate = scan.next();
         int[] laDate = CObj.dateFromString(lDate);
 
         int lHour = scan.nextInt();
-        
         float lDuration = scan.nextFloat();
         int lSeats = scan.nextInt();
-        
+
         // 0 if good, 1 if invalid data, 2 if already registered
         switch (personObj.newRide(lOrigin, lDestination, laDate, lHour, lDuration, lSeats)) {
         case 0:
@@ -255,12 +290,55 @@ class Main {
 
     }
 
-    private static void takeARide() {
-
+    private static void takeARide(Person pObj,Scanner scan, Controller CObj) {
+        String lEmail = scan.next().trim();
+        int[] lDate = CObj.dateFromString(scan.next().trim());
+        Person lPerson = CObj.getPersonFromEmail(lEmail);
+        
+        if (lPerson == null){
+            System.out.println("Utilizador inexistente.");
+        }else if(!lPerson.isDateValid(lDate)){
+            System.out.println("Data invalida.");
+        }else if(lPerson == pObj){
+            System.out.println(pObj.getName()+" nao pode dar boleia a si propria.  Boleia nao registada.");
+        }else{
+            RideIterator lRI = lPerson.createRideIterator();
+            Ride lRide = null;
+            if (lRI.hasNext()) {
+            do {
+                lRide = lRI.nextRide();
+                if (lRide.getDate()[0] == lDate[0] && lRide.getDate()[1] == lDate[1]&& lRide.getDate()[2] == lDate[2]) {
+                    if(lRide.incPerson()){
+                        System.out.println("Boleia registada.");
+                    }else{
+                        System.out.println(pObj.getName()+" nao existe lugar.  Boleia nao registada.");
+                    }
+                }
+            } while (lRI.hasNext());
+        }else{
+            System.out.println("Deslocacao nao existe.");
+        }}
     }
 
     private static void printEnd() {
         System.out.println(BYEBYE);
+    }
+
+    private static void printRideInfo(Ride ride, Person person, boolean needDriver, boolean freeSpots) {
+        if (needDriver) {
+            System.out.println(person.getEmail());
+        }
+        System.out.println(ride.getOrigin());
+        System.out.println(ride.getDestination());
+        System.out.print(ride.getDate()[0] + "-" + ride.getDate()[1] + "-" + ride.getDate()[2]);
+        System.out.print(" " + ride.getHour());
+        System.out.print(" " + ride.getDuration());
+        System.out.println(" " + ride.getEmptySeats());
+        if (!freeSpots) {
+            System.out.println("Boleias registadas: " + ride.getSeats());
+        } else {
+            System.out.println("Lugares vagos: " + ride.getEmptySeats());
+        }
     }
 
 }

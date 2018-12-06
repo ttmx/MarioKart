@@ -5,12 +5,13 @@ class Person {
     private String name;
     private String pw;
     private Ride[] rides;
-
+    private int rideCount;
     public Person(String email, String name, String pw) {
         this.email = email;
         this.name = name;
         this.pw = pw;
         rides = new Ride[0];
+        rideCount = 0;
     }
 
     public String getName() {
@@ -24,9 +25,12 @@ class Person {
     public String getPw() {
         return pw;
     }
+    public int getRideCount() {
+    	return rideCount;
+    }
 
-    public RideIterator createRideIterator(Ride[] rides) {
-    	RideIterator lIterator = new RideIterator(rides);
+    public RideIterator createRideIterator() {
+    	RideIterator lIterator = new RideIterator(rides,rideCount);
     	return lIterator;
     }
 
@@ -48,11 +52,12 @@ class Person {
         } else {
             rides = increaseRides();
             rides[rides.length - 1] = new Ride(origin, destination, date, hour, duration, seats);
+            rideCount++;
         }
         return lErrorCode;
     }
 
-    private boolean isRideAlreadyRegistered(int[] date) {
+    public boolean isRideAlreadyRegistered(int[] date) {
         boolean lCheck = false;
         for (int i = 0; i < rides.length; i++) {
             if (rides[i].getDate()[0] == date[0] && rides[i].getDate()[1] == date[1] && rides[i].getDate()[2] == date[2]) {
@@ -63,7 +68,7 @@ class Person {
     }
 
     public boolean isDateValid(int[] date) {
-    	System.out.println("Running valid date check");
+    	
         boolean niceDate = true;
         int febDays = 28;
         if ((2000 - date[2]) % 4 == 0)
@@ -75,7 +80,7 @@ class Person {
         } else {
             niceDate = false;
         }
-        System.out.println("isDateValid =" + niceDate);
+        
         return niceDate;
     }
 }

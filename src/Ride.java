@@ -10,24 +10,22 @@ class Ride {
     private int emptySeats;
     private int dateAsNumber;
 
-    public Ride(String origin, String destination, int[] date, int hour, float duration, int emptySeats) {
+    public Ride(String origin,String destination, int[] date,int hour, float duration, int seats) {
         this.origin = origin;
         this.destination = destination;
         this.date = date;
         this.hour = hour;
         this.duration = duration;
-        this.emptySeats = emptySeats;
-        dateAsNumber = date[0] + date[1] * 100 + date[2] * 10000;
+        this.seats = seats;
+        this.emptySeats = seats;
+        dateAsNumber = date[0]+date[1]*100+date[2]*10000;
     }
-
     public int getHour() {
-        return hour;
+    	return hour;
     }
-
     public String getOrigin() {
-        return origin;
+    	return origin;
     }
-
     public String getDestination() {
         return destination;
     }
@@ -43,28 +41,22 @@ class Ride {
     public int getSeats() {
         return seats;
     }
-
     public int getEmptySeats() {
-        return emptySeats;
+    	return emptySeats;
     }
 
     public Person getDriver() {
         return driver;
     }
-
-    public int getDateNumber() {
+    public int getDateNumber(){
         return dateAsNumber;
     }
-
     public boolean incPerson() {
-        boolean thisVariableIsEitherTrueOrFalseByTheEndOfThisMethodSoThatItsIsInAccordanceWithTheRequirementsSetPreemptivelyByTheTeacherInAccordanceWithTheProgrammingEthicsStandarts;
-        if (emptySeats > 0) {
-            emptySeats--;
-            thisVariableIsEitherTrueOrFalseByTheEndOfThisMethodSoThatItsIsInAccordanceWithTheRequirementsSetPreemptivelyByTheTeacherInAccordanceWithTheProgrammingEthicsStandarts = true;
-        } else {
-            thisVariableIsEitherTrueOrFalseByTheEndOfThisMethodSoThatItsIsInAccordanceWithTheRequirementsSetPreemptivelyByTheTeacherInAccordanceWithTheProgrammingEthicsStandarts = false;
-        }
-        return thisVariableIsEitherTrueOrFalseByTheEndOfThisMethodSoThatItsIsInAccordanceWithTheRequirementsSetPreemptivelyByTheTeacherInAccordanceWithTheProgrammingEthicsStandarts;
-
+    	boolean temp = false;
+    	if(emptySeats > 0) {
+    		emptySeats--;
+    		temp = true;
+    	}
+    	return temp;
     }
 }

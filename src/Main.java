@@ -1,6 +1,7 @@
 import java.util.Locale;
 import java.util.Scanner;
 
+
 class Main {
     private static final String HELP = "ajuda";
     private static final String END = "termina";
@@ -72,7 +73,7 @@ class Main {
                 takeARide(personObj, scan, CObj);
                 break;
             case REMOVERIDE:
-                removeRide();
+                removeRide(scan, personObj,CObj);
                 break;
             case HELP:
                 printLoggedInHelp();
@@ -205,10 +206,12 @@ class Main {
             System.out.println("Deslocacao nao existe.");
         } else {
             RideIterator lRI = lPerson.createRideIterator();
+            lRI.sort();
             Ride lRide = null;
             if (lRI.hasNext()) {
                 do {
                     lRide = lRI.nextRide();
+                    
                     if (lRide.getDate()[0] == lDate[0] && lRide.getDate()[1] == lDate[1]&& lRide.getDate()[2] == lDate[2]) {
                         printRideInfo(lRide, lPerson, false, true);
                         hasFound = true;
@@ -259,8 +262,22 @@ class Main {
         }
     }
 
-    private static void removeRide() {
+    private static void removeRide(Scanner scan, Person pObj,Controller CObj) {
+        switch(pObj.removeRide(CObj.dateFromString(scan.next().trim()))){
+            case 0:
+                System.out.println("Deslocacao removida.");
+                break;
+            case 1:
+                System.out.println("Data invalida.");
+                break;
+            case 2:
+                System.out.println("Deslocacao nao existe.");
+                break;
+            case 3:
+                System.out.println(pObj.getName() + " ja nao pode eliminar esta deslocacao.");
+                break;
 
+        }
     }
 
     private static void newRide(Person personObj, Scanner scan, Controller CObj) {
@@ -323,14 +340,6 @@ class Main {
 
     private static void printEnd() {
         System.out.println(BYEBYE);
-    }
-
-    private static RideIterator checkPerson(Person personObj) {
-        if (personObj != null) {
-            return personObj.createRideIterator();
-        } else {
-            return null;
-        }
     }
 
     private static void printRideInfo(Ride ride, Person person, boolean needDriver, boolean freeSpots) {

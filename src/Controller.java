@@ -22,7 +22,10 @@ class Controller {
     }
 
     public Boolean createAccount(String email, String name, String password) {
-        accounts = increaseAccounts();
+    	if(accounts.length -2 <= personCount) {
+    		accounts = increaseAccounts();
+    	}
+        
         accounts[personCount] = new Person(email, name, password);
         personCount++;
         return true;
@@ -39,10 +42,10 @@ class Controller {
     }
 
     private Person[] increaseAccounts() {
-        Person[] bigAccounts = new Person[accounts.length + 1];
-        for (int i = 0; i < accounts.length; i++) {
+        Person[] bigAccounts = new Person[accounts.length + 20];
+        for (int i = 0; i < personCount; i++) {
             bigAccounts[i] = accounts[i];
-        }
+        } 
         return bigAccounts;
     }
 
@@ -99,15 +102,15 @@ class Controller {
     	    }
 
     private Ride[] increaseRides(Ride[] rideyboy) {
-        Ride[] bigRides = new Ride[rideyboy.length + 1];
-        for (int i = 0; i < rideyboy.length; i++) {
+        Ride[] bigRides = new Ride[rideyboy.length + 20];
+        for (int i = 0; i < personCount; i++) {
             bigRides[i] = rideyboy[i];
         }
         return bigRides;
     }
     // I think this one is really similar to insertion sort
     private Ride[] sortRides(Ride[] rideyboy){ 
-        int len = rideyboy.length; 
+        int len = personCount; 
         for (int i=1; i<len; ++i) { 
             Ride key = rideyboy[i]; 
             int j = i-1;

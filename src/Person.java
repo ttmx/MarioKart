@@ -6,6 +6,9 @@ class Person {
     private String pw;
     private Ride[] rides;
     private int rideCount;
+    public Person() {
+    	
+    }
     public Person(String email, String name, String pw) {
         this.email = email;
         this.name = name;
@@ -30,22 +33,12 @@ class Person {
     }
 
     public RideIterator createRideIterator() {
-        int nullCount=0;
-        Ride[] tempRide= new Ride[rideCount];
-        for(int i = 0; i<rideCount;i++){
-            if(rides[i]==null){
-                nullCount++;
-            }else{
-                tempRide[i-nullCount] = rides[i];
-            }
-        }
-    	RideIterator lIterator = new RideIterator(tempRide,rideCount-nullCount);
+    	RideIterator lIterator = new RideIterator(rides,rideCount);
     	return lIterator;
     }
     public Ride getRideFromDate(int[] date){
         Ride lRide = null;
         for(int i = 0; i < rideCount; i++){
-            if(rides[i]!=null)
             if(rides[i].getDate()[0] == date[0] && rides[i].getDate()[1] == date[1] && rides[i].getDate()[2] == date[2]){
                 lRide = rides[i];
             }
@@ -54,8 +47,8 @@ class Person {
     }
 
     public Ride[] increaseRides() {
-        Ride[] bigRides = new Ride[rides.length + 1];
-        for (int i = 0; i < rides.length; i++) {
+        Ride[] bigRides = new Ride[rides.length + 2];
+        for (int i = 0; i < rideCount; i++) {
             bigRides[i] = rides[i];
         }
         return bigRides;
@@ -70,7 +63,7 @@ class Person {
             lErrorCode = 2;
         } else {
             rides = increaseRides();
-            rides[rides.length - 1] = new Ride(origin, destination, date, hour, duration, seats);
+            rides[rideCount] = new Ride(origin, destination, date, hour, duration, seats);
             rideCount++;
         }
         return lErrorCode;
@@ -79,16 +72,49 @@ class Person {
     public boolean isRideAlreadyRegistered(int[] date) {
         boolean lCheck = false;
         RideIterator lRI = createRideIterator();
+        lRI.sort();
         for (int i = 0; i < rideCount; i++) {
-            if(lRI.hasNext()){
-                Ride lRide = lRI.nextRide();
-                if (lRide.getDate()[0] == date[0] && lRide.getDate()[1] == date[1] && lRide.getDate()[2] == date[2]) {
-                    lCheck = true;
-                }
+        	Ride lRide = lRI.nextRide();
+        	if(lRide == null) {
+        		lCheck = false;
+        	}else if (lRide.getDate()[0] == date[0] && lRide.getDate()[1] == date[1] && lRide.getDate()[2] == date[2]) {
+                lCheck = true;
             }
-            
         }
         return lCheck;
+    }
+    public int removeRide(int[] date){
+        int errorCode = 0;
+        if(!isDateValid(date)){
+            errorCode = 1;
+        }else if(!isRideAlreadyRegistered(date)){
+            errorCode = 2;
+        }else if(hasPassengers(IndexFromDate(date))){
+            errorCode = 3;
+        }
+        
+        if(errorCode == 0){
+            int index = IndexFromDate(date);
+            rides[rideCount] = rides[index];
+            for(int i = index; i < rideCount-1;i++){
+                rides[i] = rides[i+1];
+            }
+            rideCount--;
+        }
+        return errorCode;
+    }
+    private int IndexFromDate(int[] date){
+        int index = -1;
+        for(int i = 0; i < rideCount;i++){
+            if(rides[i].equals(getRideFromDate(date))){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+    private boolean hasPassengers(int index) {
+    	return ((rides[index].getEmptySeats() -rides[index].getSeats()) != 0);
     }
 
     public boolean isDateValid(int[] date) {
@@ -106,38 +132,5 @@ class Person {
         }
         
         return niceDate;
-    }
-    private int IndexFromDate(int[] date){
-        int index = -1;
-        for(int i = 0; i < rideCount;i++){
-            if(rides[i].equals(getRideFromDate(date))){
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-    private boolean hasPassengers(int[] date){
-        return !(getRideFromDate(date).getEmptySeats()-getRideFromDate(date).getSeats()==0);
-    }
-    // 0 is good, 1 if invalid date, 2 if ride doesn't exist, 3 if ride has passengers
-    public int removeRide(int[] date){
-        int errorCode = 0;
-        if(!isDateValid(date)){
-            errorCode = 1;
-        }else if(!isRideAlreadyRegistered(date)){
-            errorCode = 2;
-        }else if(hasPassengers(date)){
-            errorCode = 3;
-        }
-        
-        if(errorCode == 0){
-            int index = IndexFromDate(date);
-            for(int i = index; i < rideCount-1;i++){
-                rides[i] = rides[i+1];
-            }
-            rideCount--;
-        }
-        return errorCode;
     }
 }

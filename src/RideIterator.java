@@ -17,7 +17,7 @@ class RideIterator {
 		return rides[currElement++];
 	}
 	public void sort(){ 
-		int len = numElements; 
+        int len = numElements; 
         for (int i=1; i<len; ++i) { 
             Ride key = rides[i]; 
             int j = i-1;

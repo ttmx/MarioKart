@@ -1,4 +1,4 @@
-nome (maximo 50 caracteres): password (entre 3 e 5 caracteres - digitos e letras): Registo efetuado.
+> nome (maximo 50 caracteres): password (entre 3 e 5 caracteres - digitos e letras): Registo efetuado.
 > ajuda - Mostra os comandos existentes
 termina - Termina a execucao do programa
 regista - Regista um novo utilizador no programa
@@ -71,7 +71,7 @@ aa@fct.unl.pt > Lisboa
 Alvalade do Sado
 20-12-2018 15 1.45 5
 Lugares vagos: 5
-aa@fct.unl.pt > Caloiro 1 nao existe lugar.  Boleia nao registada.
+aa@fct.unl.pt > Caloiro 1 nao existe lugar. Boleia nao registada.
 aa@fct.unl.pt > Lisboa
 Alvalade do Sado
 13-12-2018 15 1.45 1
@@ -82,14 +82,15 @@ bt@fct.unl.pt > Lisboa
 Alvalade do Sado
 20-12-2018 15 1.45 2
 Lugares vagos: 1
-bt@fct.unl.pt > Bernardo Toninho nao existe lugar.  Boleia nao registada.
-bt@fct.unl.pt > bt@fct.unl.pt > Deslocacao nao existe.
+bt@fct.unl.pt > Bernardo Toninho nao existe lugar. Boleia nao registada.
+bt@fct.unl.pt > Deslocacao nao existe.
+bt@fct.unl.pt > Deslocacao nao existe.
 bt@fct.unl.pt > Deslocacao registada. Obrigado Bernardo Toninho.
 bt@fct.unl.pt > Lisboa
 Alvalade do Sado
 20-12-2018 15 1.45 1
 Lugares vagos: 1
-bt@fct.unl.pt > Bernardo Toninho nao existe lugar.  Boleia nao registada.
+bt@fct.unl.pt > Bernardo Toninho nao existe lugar. Boleia nao registada.
 bt@fct.unl.pt > Boleia registada.
 bt@fct.unl.pt > Obrigado. Ate a proxima.
 > password: fb@fct.unl.pt > Lisboa

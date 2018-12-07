@@ -200,6 +200,7 @@ class Main {
         String lEmail = scan.next().trim();
         int[] lDate = CObj.dateFromString(scan.next().trim());
         Person lPerson = CObj.getPersonFromEmail(lEmail);
+        boolean hasFound = false;
         if (lPerson == null) {
             System.out.println("Deslocacao nao existe.");
         } else {
@@ -210,9 +211,10 @@ class Main {
                     lRide = lRI.nextRide();
                     if (lRide.getDate()[0] == lDate[0] && lRide.getDate()[1] == lDate[1]&& lRide.getDate()[2] == lDate[2]) {
                         printRideInfo(lRide, lPerson, false, true);
+                        hasFound = true;
                     }
                 } while (lRI.hasNext());
-            } else {
+            } if(!hasFound){
                 System.out.println("Deslocacao nao existe.");
             }
         }
@@ -311,7 +313,7 @@ class Main {
         } else {
             //System.out.println("Empty Seats: " + lPerson.getRideFromDate(lDate).getEmptySeats() + "; date: " + lPerson.getRideFromDate(lDate).getDateNumber()+ "-" + lDate[1] + "-" + lDate[2]);
             if (lPerson.getRideFromDate(lDate).getEmptySeats() == 0) {
-                System.out.println(pObj.getName() + " nao existe lugar.  Boleia nao registada.");
+                System.out.println(pObj.getName() + " nao existe lugar. Boleia nao registada.");
             } else {
                 lPerson.getRideFromDate(lDate).incPerson();
                 System.out.println("Boleia registada.");

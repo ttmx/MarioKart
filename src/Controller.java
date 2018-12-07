@@ -66,60 +66,18 @@ class Controller {
         return accounts[index];
     }
 
-    /*public Ride[] getRides(int[] date) {
-    	
-        Ride[] lRides = new Ride[0];
-        for (int i = 0; i < personCount; i++) {
-            for (int a = 0; i < accounts[i].createRideIterator(lRides).nextR; i++) {
-                if (date.equals(accounts[i].getRides()[a])) {
-                    lRides = increaseRides(lRides);
-                    lRides[lRides.length - 1] = accounts[i].getRides()[a];
-                }
-            }
-        }
-        return lRides;
-    }*/
     public void sortAccounts() {
-    	char lCompareOne;
-    	char lCompareTwo;
-    	boolean hasSorted = false;
-    	for (int i = 1; i < personCount; i++) {
-    		for(int a = 0; a <= 10 && !hasSorted;a++) {
-    			lCompareOne = new Character(accounts[i-1].getEmail().charAt(a));
-        		lCompareTwo = new Character(accounts[i].getEmail().charAt(a));
-        		if(Character.compare(lCompareOne, lCompareTwo) > 0) {
-        			Person temp = accounts[i-1];
-        			accounts[i-1] = accounts[i]; 
-        			accounts[i] = temp;
-        		} else if(Character.compare(lCompareOne, lCompareTwo) < 0) {
-        			hasSorted = true;
-        		}
-    		}
-    		
-    		
-    		
-    	}
-    	    }
-
-    private Ride[] increaseRides(Ride[] rideyboy) {
-        Ride[] bigRides = new Ride[rideyboy.length + 20];
-        for (int i = 0; i < personCount; i++) {
-            bigRides[i] = rideyboy[i];
-        }
-        return bigRides;
-    }
-    // I think this one is really similar to insertion sort
-    private Ride[] sortRides(Ride[] rideyboy){ 
         int len = personCount; 
         for (int i=1; i<len; ++i) { 
-            Ride key = rideyboy[i]; 
+            Person key = accounts[i]; 
             int j = i-1;
-            while (j>=0 && rideyboy[j].getDateNumber() > key.getDateNumber()){ 
-                rideyboy[j+1] = rideyboy[j]; 
+            
+            while (j>=0 && accounts[j].getEmail().compareTo(key.getEmail())==1){ 
+                accounts[j+1] = accounts[j]; 
                 j = j-1; 
             } 
-            rideyboy[j+1] = key; 
-        }
-        return rideyboy;    
+            accounts[j+1] = key; 
+        } 
     }
+
 }

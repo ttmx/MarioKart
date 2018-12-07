@@ -200,6 +200,7 @@ class Main {
         String lEmail = scan.next().trim();
         int[] lDate = CObj.dateFromString(scan.next().trim());
         Person lPerson = CObj.getPersonFromEmail(lEmail);
+        CObj.sortAccounts();
         boolean hasFound = false;
         if (lPerson == null) {
             System.out.println("Deslocacao nao existe.");
@@ -224,12 +225,12 @@ class Main {
         String lDate = scan.nextLine().trim();
 
         int[] laDate;
-        CObj.sortAccounts();
         if (!lDate.equals("")) {
             laDate = CObj.dateFromString(lDate);
-            listRidesWDate(laDate, CObj);
+            listRidesWDate(laDate, CObj,personObj);
         } else {
             RideIterator lIterator = personObj.createRideIterator();
+            CObj.sortAccounts();
             lIterator.sort();
             if (lIterator.hasNext()) {
                 do {
@@ -237,44 +238,42 @@ class Main {
                     printRideInfo(lRide, personObj, false, false);
                     System.out.print("\n");
                 } while (lIterator.hasNext());
+            }else{
+                System.out.println(personObj.getName()+" nao tem deslocacoes registadas.");
             }
         }
     }
 
-    private static void listRidesWDate(int[] date, Controller CObj) {
+    private static void listRidesWDate(int[] date, Controller CObj,Person personObj) {
         int lUserCount = CObj.getUserCount();
-        Person lPerson = new Person();
+        Person lPerson = null;
         boolean hasFound = false;
-        if(!lPerson.isDateValid(date)) {
+        if(!personObj.isDateValid(date)) {
         	
         	System.out.println("Data invalida.");      	
-        }else {
-        	for (int i = 0; i < lUserCount; i++) {
+        }else{
+            for (int i = 0; i < lUserCount; i++) {
+            	CObj.sortAccounts();
                 lPerson = CObj.getPersonFromIndex(i);
+                
                 RideIterator lIterator = lPerson.createRideIterator();
                 lIterator.sort();
                 while (lIterator.hasNext()) {
-
                     Ride lRide = lIterator.nextRide();
                     if (date[0] == lRide.getDate()[0] && date[1] == lRide.getDate()[1] && date[2] == lRide.getDate()[2]) {
                         printRideInfo(lRide, lPerson, true, false);
                         System.out.print("\n");
                         hasFound = true;
                     }
-                    	
-                    
-
                 }
-             
+                 
             }
-        	if(!hasFound) {
-            	System.out.println(lPerson.getName() + " nao existem deslocacoes registadas para " + date[0]+"-"+ date[1]+"-"+ date[2]+".");
+            if(!hasFound) {
+            	System.out.println(personObj.getName() + " nao existem deslocacoes registadas para " + date[0]+"-"+ date[1]+"-"+ date[2]+".");
             }
         }
-        	
-        	
-        	
         
+        	
         
     }
 
@@ -356,14 +355,6 @@ class Main {
 
     private static void printEnd() {
         System.out.println(BYEBYE);
-    }
-
-    private static RideIterator checkPerson(Person personObj) {
-        if (personObj != null) {
-            return personObj.createRideIterator();
-        } else {
-            return null;
-        }
     }
 
     private static void printRideInfo(Ride ride, Person person, boolean needDriver, boolean freeSpots) {

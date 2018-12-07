@@ -10,7 +10,7 @@ class Person {
     	
     }
     public Person(String email, String name, String pw) {
-        this.email = email;
+        this.email= email;
         this.name = name;
         this.pw = pw;
         rides = new Ride[0];

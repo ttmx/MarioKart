@@ -235,6 +235,7 @@ class Main {
                 do {
                     Ride lRide = lIterator.nextRide();
                     printRideInfo(lRide, personObj, false, false);
+                    System.out.print("\n");
                 } while (lIterator.hasNext());
             }
         }
@@ -247,7 +248,7 @@ class Main {
         if(!lPerson.isDateValid(date)) {
         	
         	System.out.println("Data invalida.");      	
-    }
+        }else {
         	for (int i = 0; i < lUserCount; i++) {
                 lPerson = CObj.getPersonFromIndex(i);
                 RideIterator lIterator = lPerson.createRideIterator();
@@ -257,6 +258,7 @@ class Main {
                     Ride lRide = lIterator.nextRide();
                     if (date[0] == lRide.getDate()[0] && date[1] == lRide.getDate()[1] && date[2] == lRide.getDate()[2]) {
                         printRideInfo(lRide, lPerson, true, false);
+                        System.out.print("\n");
                         hasFound = true;
                     }
                     	
@@ -265,10 +267,13 @@ class Main {
                 }
              
             }
-        	
         	if(!hasFound) {
-            	System.out.println(lPerson.getName() + " nao existem deslocacoes registadas para " + date[0]+"-"+ date[1]+"-"+ date[2]);
+            	System.out.println(lPerson.getName() + " nao existem deslocacoes registadas para " + date[0]+"-"+ date[1]+"-"+ date[2]+".");
             }
+        }
+        	
+        	
+        	
         
         
     }

@@ -123,7 +123,7 @@ class Person {
         int febDays = 28;
         if ((2000 - date[2]) % 4 == 0)
             febDays += 1;
-        int[] daysPerMonth = { 31, 28, 31, 30, febDays, 30, 31, 31, 30, 31, 30, 31 };
+        int[] daysPerMonth = { 31, febDays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         if (date[1] <= 12) {
             if (date[0] > daysPerMonth[date[1] - 1])
                 niceDate = false;

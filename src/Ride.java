@@ -54,7 +54,7 @@ class Ride {
     public boolean incPerson() {
     	boolean temp = false;
     	if(emptySeats > 0) {
-    		emptySeats--;
+            emptySeats--;
     		temp = true;
     	}
     	return temp;

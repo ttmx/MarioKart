@@ -1,6 +1,9 @@
 regista thisisanemail@fct.lmao
 myname
 pw123
+regista thisismylifenowemail
+thisismylifenow
+pw321
 entrada thisisanemail@fct.lmao
 pw123
 nova

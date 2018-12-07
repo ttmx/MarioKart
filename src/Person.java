@@ -36,7 +36,7 @@ class Person {
     public Ride getRideFromDate(int[] date){
         Ride lRide = null;
         for(int i = 0; i < rideCount; i++){
-            if(rides[i].getDate()[0] == date[0] || rides[i].getDate()[1] == date[1] || rides[i].getDate()[2] == date[2]){
+            if(rides[i].getDate()[0] == date[0] && rides[i].getDate()[1] == date[1] && rides[i].getDate()[2] == date[2]){
                 lRide = rides[i];
             }
         }

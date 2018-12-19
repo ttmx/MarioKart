@@ -2,6 +2,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 class Main {
+	//Constantes
     private static final String HELP = "ajuda";
     private static final String END = "termina";
     private static final String REGISTER = "regista";
@@ -15,18 +16,24 @@ class Main {
     private static final String BYEBYE = "Obrigado. Ate a proxima.";
 
     public static void main(String[] args) {
+    	
         Locale.setDefault(new Locale("en", "US"));
         Controller CObj = new Controller();
         Scanner scan = new Scanner(System.in);
+        //Inicio do Programa
         mainMenu(scan, CObj);
     }
-
+    //Estado de menu principal(sem sessao iniciada)
     public static void mainMenu(Scanner scan, Controller CObj) {
 
         String lCmd = "";
+        //Enquanto o comando nao for termina
         while (!lCmd.equals(END)) {
+        	//Criacao do prompt
             System.out.print("> ");
+            //Leitura dos comandos
             lCmd = readCommand(scan);
+            //Processamento dos comandos
             switch (lCmd) {
             case HELP:
                 printMenuHelp();
@@ -49,10 +56,13 @@ class Main {
 
         }
     }
-
+    //Estado de sessao iniciada
+    //@param O objecto Person definido no login
     public static void loggedIn(Person personObj, Scanner scan, Controller CObj) {
         String lCmd = "";
+        //Enquanto que o comando nao for sai
         while (!lCmd.equals(LOGOFF)) {
+        	//Criacao do prompt
             System.out.print(personObj.getEmail() + " > ");
             lCmd = readCommand(scan);
             switch (lCmd) {
@@ -86,53 +96,56 @@ class Main {
         }
 
     }
-
+    //Leitura e a formatacao do comando
     public static String readCommand(Scanner scan) {
         String lRead = "";
         lRead = scan.next().toLowerCase();
 
         return lRead;
     }
-
+    //Verificao da password
+    //@param uma password
     private static boolean isPwValid(String pw) {
         boolean lIsValid = true;
-
+        //Verifica se cada caracter e um digito ou letra
+        //se algum dos caracteres for algo que nao um digito ou letra entao o metodo retorna falso
         for (int i = 0; i < pw.length(); i++) {
-            // if (Character.isDigit(pw.charAt(i))) {
-            // lHasDigits = true;
-            // }
-            // if (Character.isAlphabetic(pw.charAt(i))) {
-            // lHasLetters = true;
-            // }
             if (!Character.isLetterOrDigit(pw.charAt(i))) {
                 lIsValid = false;
             }
         }
         return (pw.length() <= 5 && pw.length() >= 3 && lIsValid);
     }
-
+    
     private static void printInvalidCmd() {
         System.out.println("Comando inexistente.");
     }
-
+    //Registo de uma conta
+    //@param O objeto controlador 
     private static void register(Scanner scan, Controller CObj) {
         boolean lHasCreated = false;
+        //Contador de passwords falhadas
         int lFailCount = 0;
+        //Leitura do email 
         String lEmail = scan.next();
         String lName = "";
         String lPass = "";
         scan.nextLine();
+        //Verificacao da existencia de um email igual no programa
         boolean repeatedEmail = CObj.repeatedEmail(lEmail);
+        //Se nao existirem nenhumas contas com esse email
         if (!repeatedEmail) {
-
+        	//Leitura do nome
             System.out.print("nome (maximo 50 caracteres): ");
             lName = scan.nextLine();
-
+            //Ciclo responsavel pela verificacao da password
             while (lFailCount < 3 && !lHasCreated) {
                 System.out.print("password (entre 3 e 5 caracteres - digitos e letras): ");
                 lPass = scan.next();
                 scan.nextLine();
+                //se password for valida
                 if (isPwValid(lPass)) {
+                	//Cria a conta no objeto controlador 
                     CObj.createAccount(lEmail, lName, lPass);
                     System.out.println("Registo efetuado.");
                     lHasCreated = true;
@@ -272,9 +285,6 @@ class Main {
             	System.out.println(personObj.getName() + " nao existem deslocacoes registadas para " + date[0]+"-"+ date[1]+"-"+ date[2]+".");
             }
         }
-        
-        	
-        
     }
 
     private static void removeRide(Scanner scan, Person pObj,Controller CObj) {
